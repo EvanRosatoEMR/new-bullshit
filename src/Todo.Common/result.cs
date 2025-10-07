@@ -42,9 +42,29 @@ namespace Todo.Common
     {
         private bool ok;
 
-        public string Error { get; private set; }
+        private string Error { get; set; }
 
-        public T? Value { get; private set; }
+        private T? Value { get; set; }
+
+        public bool IsErr()
+        {
+            return this.ok;
+        }
+
+        public bool IsOk()
+        {
+            return this.ok;
+        }
+
+        public string GetErr()
+        {
+            return this.Error;
+        }
+
+        public T? GetVal()
+        {
+            return this.Value;
+        }
 
         private Result(T val)
         {
