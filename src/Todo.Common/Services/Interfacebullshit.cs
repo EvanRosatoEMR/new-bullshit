@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Todo.Common.Models;
 using Todo.Common.Requests;
 
 namespace Todo.Common.Services
@@ -18,9 +19,16 @@ namespace Todo.Common.Services
 
     public class TaskService : IInterfacebullshit
     {
+        private readonly IFileDataService fileDataService;
+        
+        public TaskService(IFileDataService fileDataService)
+        {
+            this.fileDataService = fileDataService;
+        }
         public async Task CreateTaskAsync(CreateTaskRequest request)
         {
-            await Task.CompletedTask;
+            var model = TaskModel.CreateTask(request);
+            await this.fileDataService.SaveAsync(model);
         }
     }
 }

@@ -20,5 +20,20 @@ namespace Todo.Common.Requests
         public string Name { get; }
         public string Description { get; }
         public DateTime DueDate { get; }
+
+        public bool invalid()
+        {
+            if (string.IsNullOrWhiteSpace(this.Name))
+            {
+                return false;
+            }
+
+            if (this.DueDate <= DateTime.UtcNow)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
