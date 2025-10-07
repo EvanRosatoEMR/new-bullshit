@@ -13,6 +13,30 @@ namespace Todo.Common
     {
         private bool ok;
         public string Error { get; private set; }
+
+        public bool IsErr()
+        {
+            if (this.ok)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsOk()
+        {
+            if (!this.ok)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string GetErr()
+        {
+            return this.Error;
+        }
+
         private Result()
         {
             this.ok = true;
@@ -48,12 +72,20 @@ namespace Todo.Common
 
         public bool IsErr()
         {
-            return this.ok;
+            if (this.ok)
+            {
+                return false;
+            }
+            return true;
         }
 
         public bool IsOk()
         {
-            return this.ok;
+            if (!this.ok)
+            {
+                return false;
+            }
+            return true;
         }
 
         public string GetErr()

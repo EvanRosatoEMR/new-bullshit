@@ -21,19 +21,19 @@ namespace Todo.Common.Requests
         public string Description { get; }
         public DateTime DueDate { get; }
 
-        public bool invalid()
+        public Result IsValid()
         {
             if (string.IsNullOrWhiteSpace(this.Name))
             {
-                return false;
+                return Result.Err("Name Required");
             }
 
             if (this.DueDate <= DateTime.UtcNow)
             {
-                return false;
+                return Result.Err("Due Date Must Be In The Future.");
             }
 
-            return true;
+            return Result.Ok();
         }
     }
 }

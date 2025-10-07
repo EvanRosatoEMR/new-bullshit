@@ -14,7 +14,7 @@ namespace Todo.Common.Services
     {
         //Tasks and Asyncs are not exclusive to each other.
         //Here, we create a task using the CreateTaskRequest class we just made.
-        Task CreateTaskAsync(CreateTaskRequest request);
+        Task<Result> CreateTaskAsync(CreateTaskRequest request);
     }
 
     public class TaskService : IInterfacebullshit
@@ -25,10 +25,17 @@ namespace Todo.Common.Services
         {
             this.fileDataService = fileDataService;
         }
-        public async Task CreateTaskAsync(CreateTaskRequest request)
+        public async Task<Result> CreateTaskAsync(CreateTaskRequest request)
         {
-            var model = TaskModel.CreateTask(request);
-            await this.fileDataService.SaveAsync(model);
+            var modelResult = TaskModel.CreateTask(request);
+
+            if (modelResult.IsErr())
+            {
+                return Result.Err(modelResult.GetErr());
+            }
+
+            await this.fileDataService.SaveAsync(modelResult.GetVal());
+            return Result.Ok();
         }
     }
 }

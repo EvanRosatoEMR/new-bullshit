@@ -29,14 +29,17 @@ namespace Todo.Common.Models
         public string Description { get; set; }
         public DateTime DueDate { get; set; }
 
-        public static TaskModel CreateTask(CreateTaskRequest request)
+        public static Result<TaskModel> CreateTask(CreateTaskRequest request)
         {
-            if (!request.invalid())
+
+            var validationRequest = request.IsValid();
+
+            if (validationRequest.IsErr())
             {
-                throw new InvalidOperationException();
+                return Result<TaskModel>.Err(validationRequest.GetErr());
             }
 
-            return new TaskModel
+            return Result<TaskModel>.Ok(new TaskModel
             {
                 //Guid = Global Unique ID.
                 //Generates a unique id that is confirmed to be unique on a global scale.
@@ -44,7 +47,7 @@ namespace Todo.Common.Models
                 Name = request.Name,
                 Description = request.Description,
                 DueDate = request.DueDate
-            };
+            });
         }
     }
 }
